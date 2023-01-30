@@ -18,11 +18,16 @@
 void heapSort(Employee *A, int n)
 {
 	// TODO - BuildHeap on the heap
-
+	buildHeap(A,n);
 	// TODO - while n > 0:
 	// TODO - swap A[n-1] with A[0], since A[0] is the smallest number.
 	// TODO - A[n-1] now sorted in place, so decrement n
 	// TODO - Heapify the elements from A[0] up to A[n-1] (which leaves the newly sorted element alone)
+	for (int i = n - 1; i >= 0; i--)
+	{
+		swap(&A[0], &A[i]);
+		heapify(A,0,i);
+	}
 }
 
 /**
@@ -35,7 +40,10 @@ void heapSort(Employee *A, int n)
  */
 void buildHeap(Employee *A, int n)
 {
-	// TODO - heapify() every element from A[n/2] down-to A[0]
+	for (int i = n/2-1; i >= 0; i--)
+	{
+		heapify(A, i, n);
+	}
 }
 
 /**
@@ -48,15 +56,25 @@ void buildHeap(Employee *A, int n)
  */
 void heapify(Employee *A, int i, int n)
 {
-	// TODO - get index of left child of element i
-	// TODO - get index of right child of element i
+	printList(A,5);
+	int left = 2 * i + 1;
+	int right = 2 * i + 2;
+	int smaller = i;
 
-	// TODO - determine which child has a smaller salary. We'll call the index of this
-	//		element: "smaller"
+	if (left < n && A[left].salary < A[smaller].salary)
+	{
+		smaller = left;
+	}
+	if (left < n && A[right].salary < A[smaller].salary)
+	{
+		smaller = right;
+	}
 
-	// TODO - recursively check if the salary at A[i] > the salary at A[smaller]. If it is, swap the two.
-	//			Then recursively heapify A[smaller].
-	// TODO - Continue recursion as long as i is within range AND either right_child and left_child are still within range.
+	if (smaller != i)
+	{
+		swap(&A[i], &A[smaller]);
+		heapify(A, smaller, n);
+	}
 }
 
 /**
@@ -66,7 +84,9 @@ void heapify(Employee *A, int i, int n)
  */
 void swap(Employee *e1, Employee *e2)
 {
-	// TODO
+	Employee tmp = *e1;
+	*e1 = *e2;
+	*e2 = tmp;
 }
 
 /**
@@ -76,5 +96,13 @@ void swap(Employee *e1, Employee *e2)
  */
 void printList(Employee *A, int n)
 {
-	// TODO
+	for (int i = 0; i < n; i++)
+	{
+		printf("[id=%s sal=%i]",A[i].name,A[i].salary);
+		if (i < n-1)
+		{
+			printf(", ");
+		}
+	}
+	printf("\n");
 }
