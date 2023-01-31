@@ -65,7 +65,7 @@ void heapify(Employee *A, int i, int n)
 	{
 		smaller = left;
 	}
-	if (left < n && A[right].salary < A[smaller].salary)
+	if (right < n && A[right].salary < A[smaller].salary)
 	{
 		smaller = right;
 	}
